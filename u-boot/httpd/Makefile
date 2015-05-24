@@ -12,6 +12,7 @@ all:    $(LIB)
 fs.c:   fsdata.c
 
 fsdata.c:
+	    echo "VENDOR: " $(DEVICE_VENDOR)
 	    ./vendors/makefsdatac $(DEVICE_VENDOR)
 
 $(LIB): $(START) $(OBJS)
