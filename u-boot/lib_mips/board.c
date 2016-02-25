@@ -169,6 +169,21 @@ init_fnc_t *init_sequence[] = { env_init,		/* initialize environment */
  * BOARD INITIALIZATION
  *
  */
+//
+void printBanner(void)
+{
+    printf("\n\n");
+    printf("       _           _____         _____\n");
+    printf("       /           /    )        /    )   ♥\n");
+    printf("      /           /    /        /____/       ___   ___   __\n");
+    printf("     /           /    /        /        /   /   ) /   ) /__)  /   /\n");
+    printf("   _/____/ ♠    /____/   ♣    /        /   /   / /   / (_    (___/ ♦\n");
+    printf("                                                                /\n");
+    printf("                                                          _____/\n");
+    printf("-------------------------------------------------------------------------\n");
+    printf("             https://github.com/Omylink/Omylink_u-boot\n");
+    printf("-------------------------------------------------------------------------\n");
+}
 void board_init_f(ulong bootflag){
 	gd_t gd_data, *id;
 	bd_t *bd;
