@@ -1,10 +1,11 @@
 export BUILD_TOPDIR=$(PWD)
 export STAGING_DIR=$(BUILD_TOPDIR)/tmp
 
-export MAKECMD=make --silent --no-print-directory ARCH=mips CROSS_COMPILE=mips-linux-gnu-
+export MAKECMD=make ARCH=mips CROSS_COMPILE=mips-openwrt-linux-uclibc-
+export PATH:=$(BUILD_TOPDIR)/toolchain/bin/:$(PATH)
 
 # boot delay (time to autostart boot command)
-export CONFIG_BOOTDELAY=1
+export CONFIG_BOOTDELAY=2
 
 # uncomment following line, to disable output in U-Boot console
 #export DISABLE_CONSOLE_OUTPUT=1
