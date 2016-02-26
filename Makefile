@@ -13,6 +13,17 @@ export CONFIG_BOOTDELAY=2
 # uncomment following line, to build RAM version images (without low level initialization)
 #export CONFIG_SKIP_LOWLEVEL_INIT=1
 
+omy:	export UBOOT_FILE_NAME=uboot_for_omy
+omy:	export MAX_UBOOT_SIZE=64
+ifndef CONFIG_SKIP_LOWLEVEL_INIT
+omy:	export COMPRESSED_UBOOT=1
+endif
+omy:	export ETH_CONFIG=_s27
+omy:
+	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) mr3420_v2_config
+	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) ENDIANNESS=-EB V=1 all
+	@make --no-print-directory show_size
+
 tplink_mr3020:	export UBOOT_FILE_NAME=uboot_for_tp-link_tl-mr3020
 tplink_mr3020:	export MAX_UBOOT_SIZE=64
 ifndef CONFIG_SKIP_LOWLEVEL_INIT
