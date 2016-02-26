@@ -26,8 +26,6 @@ More information about supported devices:
 
 | Model | SoC | FLASH | RAM | U-Boot image | U-Boot env |
 |:--- | :--- | ---: | ---: | ---: | ---: |
-| Bitmain Antminer | AR9331 | 8 MiB | 64 MiB DDR2 | 64 KiB, LZMA | RO |
-| Onion Omega | AR9331 | 16 MiB | 64 MiB DDR2 | 64 KiB, LZMA | RO |
 | TP-Link TL-WR703N | AR9331 | 4 MiB | 32 MiB DDR1 | 64 KiB, LZMA | RO |
 | TP-Link TL-WR720N v3 | AR9331 | 4 MiB | 32 MiB DDR1 | 64 KiB, LZMA | RO |
 | TP-Link TL-WR710N v1 | AR9331 | 8 MiB | 32 MiB DDR1 | 64 KiB, LZMA | RO |
