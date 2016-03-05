@@ -1,10 +1,10 @@
-U-Boot 1.1.4 modification for AR93xx Devices
+**U-Boot 1.1.4 modification for AR93xx Devices**
 ==========
 
-Supported devices
+**Supported devices**
 -----------------
 
-Currently supported devices:
+Currently supported :
 
 - **Atheros AR9341**:
   - OMYlink G1
@@ -214,15 +214,15 @@ user$ screen /dev/ttyUSB0 115200
 
 4. Power on the router, wait for a line like one of the following and interrupt the process of loading a kernel:
 
-  `Hit any key to stop autoboot:  1` (for **OMYlink products**, use any key)
-  `Hit any key to stop autoboot:  1` (for **D-Link DIR-505**, use any key)
-  `Autobooting in 1 seconds` (for most **TP-Link** routers, you should enter `tpl` at this point)
+  `Hit any key to stop autoboot:  1` (for **OMYlink products**, use any key)  
+  `Hit any key to stop autoboot:  1` (for **D-Link DIR-505**, use any key)  
+  `Autobooting in 1 seconds` (for most **TP-Link** routers, you should enter `tpl` at this point)  
 
 5. Set `ipaddr` and `serverip` environment variables:
 
   ```
   ar7420> setenv ipaddr 192.168.1.1
-  ar7420t> setenv serverip 192.168.1.2
+  ar7420> setenv serverip 192.168.1.2
   ```
 6. Check the changes:
 
