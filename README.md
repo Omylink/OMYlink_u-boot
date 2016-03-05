@@ -6,17 +6,18 @@ Supported devices
 
 Currently supported devices:
 
-- **Atheros AR9331**:
-  - TP-Link TL-WR703N v1
-  - TP-Link TL-WR710N v1 (version for European market
-  - TP-Link TL-WR720N v3 (version for Chinese market)
-  - TP-Link TL-WR740N v4 (and similar, like TL-WR741ND v4)
+- **Atheros AR9341**:
+  - OMYlink G1
+  - OMYlink X1
 
 - **Atheros AR9341**:
-  - TP-Link TL-MR3420_V2
-  - TP-Link TL-WR841N/D v8
-  - TP-Link TL-WA830RE/TL-WA801ND
+  - TP-Link TL-WDR3500
 
+- **Atheros AR9331**:
+  - TP-Link TL-WR703N v1
+
+- **Atheros AR1311**:
+  - D-Link DIR-505 v A1
 
 Flashing the bootloader is risky.
 
@@ -26,10 +27,11 @@ More information about supported devices:
 
 | Model | SoC | FLASH | RAM | U-Boot image | U-Boot env |
 |:--- | :--- | ---: | ---: | ---: | ---: |
+| OMYlink G1 | AR9341 | 16 MiB | 64 MiB DDR1 | 64 KiB, LZMA | RO |
+|
+| OMYlink X1 | AR9341 | 16 MiB | 64 MiB DDR1 | 64 KiB, LZMA | RO |
+|
 | TP-Link TL-WR703N | AR9331 | 4 MiB | 32 MiB DDR1 | 64 KiB, LZMA | RO |
-| TP-Link TL-WR720N v3 | AR9331 | 4 MiB | 32 MiB DDR1 | 64 KiB, LZMA | RO |
-| TP-Link TL-WR710N v1 | AR9331 | 8 MiB | 32 MiB DDR1 | 64 KiB, LZMA | RO |
-| TP-Link TL-WR740N v4 | AR9331 | 4 MiB | 32 MiB DDR1 | 64 KiB, LZMA | RO |
 |
 | D-Link DIR-505 H/W ver. A1 | AR1311 | 8 MiB | 64 MiB DDR2 | 64 KiB, LZMA | RO |
 |
@@ -212,51 +214,53 @@ user$ screen /dev/ttyUSB0 115200
 
 4. Power on the router, wait for a line like one of the following and interrupt the process of loading a kernel:
 
-  `Autobooting in 1 seconds` (for most **TP-Link** routers, you should enter `tpl` at this point)   
-  `Hit ESC key to stop autoboot:  1` (for **8devices Carambola 2**, use `ESC` key)   
+  `Hit any key to stop autoboot:  1` (for **OMYlink products**, use any key)
   `Hit any key to stop autoboot:  1` (for **D-Link DIR-505**, use any key)
+  `Autobooting in 1 seconds` (for most **TP-Link** routers, you should enter `tpl` at this point)
 
 5. Set `ipaddr` and `serverip` environment variables:
 
   ```
-  hornet> setenv ipaddr 192.168.1.1
-  hornet> setenv serverip 192.168.1.2
+  ar7420> setenv ipaddr 192.168.1.1
+  ar7420t> setenv serverip 192.168.1.2
   ```
 6. Check the changes:
 
   ```
-  hornet> printenv ipaddr
-  ipaddr=192.168.1.1
-  hornet> printenv serverip
-  serverip=192.168.1.2
-  ```
-
-7. Download and store in RAM proper image for your router, using `tftpboot` command in U-Boot console (in this example, for **TP-Link TL-MR3020**):
+  ar7240> printenv
 
   ```
-  tftpboot 0x80800000 uboot_for_tp-link_tl-mr3020.bin
 
-  eth1 link down
-  Using eth0 device
-  TFTP from server 192.168.1.2; our IP address is 192.168.1.1
-  Filename 'uboot_for_tp-link_tl-mr3020.bin'.
-  Load address: 0x80800000
-  Loading: #############
-  done
-  Bytes transferred = 65536 (10000 hex)
-  hornet>
+7. Download and store in RAM proper image for your router, using `tftpboot` command in U-Boot console (in this example, for **OMYlink X1**):
+
+  ```
+ar7240> tftpboot 0x80800000 uboot_for_omy.bin
+Trying eth0
+eth0 link down
+FAIL
+Trying eth1
+enet1 port0 up
+dup 1 speed 1000
+Using eth1 device
+TFTP from server 192.168.1.2; our IP address is 192.168.1.1
+Filename 'uboot_for_omy.bin'.
+Load address: 0x80800000
+Loading: T #############
+done
+Bytes transferred = 65536 (10000 hex)
+
   ```
 
 8. Next step is very risky! You are going to delete existing U-Boot image from FLASH in your device and copy from RAM the new one. If something goes wrong (for example, a power failure), your router, without bootloader, will not boot again!
 
-  You should also note the size of downloaded image. For supported **TP-Link** and **D-Link** routers it will be always **0x10000** (64 KiB), but for Carambola 2 image size is different: **0x40000** (256 KiB). In all cases, the start address of FLASH is **0x9F000000** and for RAM: **0x80000000** (as you may noticed, I did not use start address of RAM to store image and you should follow this approach).
+  You should also note the size of downloaded image. For supported **TP-Link** and **D-Link** routers it will be always **0x10000** (64 KiB), but for Carambola 2 image size is different: **0x40000** (256 KiB). In all cases, the start address of FLASH is **0x9F000000** and for RAM: **0x80800000** (as you may noticed, I did not use start address of RAM to store image and you should follow this approach).
 
   Please, do not make any mistake with offsets and sizes during next steps!
 
 9. Erase appropriate FLASH space for new U-Boot image (this command will remove default U-Boot image!):
 
   ```
-  uboot> erase 0x9F000000 +0x10000   
+  ar7240> erase 0x9F000000 +0x10000
 
   First 0x0 last 0x0 sector size 0x10000
   0
@@ -266,7 +270,7 @@ user$ screen /dev/ttyUSB0 115200
 10. Now your router does not have U-Boot, so do not wait and copy to FLASH the new one, stored earlier in RAM:
 
   ```
-  uboot> cp.b 0x80800000 0x9F000000 0x10000   
+  ar7240> cp.b 0x80800000 0x9F000000 0x10000
 
   Copy to Flash... write addr: 9f000000
   done
@@ -275,31 +279,31 @@ user$ screen /dev/ttyUSB0 115200
 11. If you want, you can check content of the newly written FLASH and compare it to the image on your PC (or better also do such a "legit memory content" comparison prior to writing!), using `md` command in U-Boot console, which prints indicated memory area (press only ENTER after first execution of this command to move further in memory):
 
   ```
-  uboot> md 0x9F000000
+  ar7240> md 0x9F000000
 
-9F000000: 100000FF 00000000 100000FD 00000000    ................
-9F000010: 1000018E 00000000 1000018C 00000000    ................
-9F000020: 1000018A 00000000 10000188 00000000    ................
-9F000030: 10000186 00000000 10000184 00000000    ................
-9F000040: 10000182 00000000 10000180 00000000    ................
-9F000050: 1000017E 00000000 1000017C 00000000    ...~.......|....
-9F000060: 1000017A 00000000 10000178 00000000    ...z.......x....
-9F000070: 10000176 00000000 10000174 00000000    ...v.......t....
-9F000080: 10000172 00000000 10000170 00000000    ...r.......p....
-9F000090: 1000016E 00000000 1000016C 00000000    ...n.......l....
-9F0000A0: 1000016A 00000000 10000168 00000000    ...j.......h....
-9F0000B0: 10000166 00000000 10000164 00000000    ...f.......d....
-9F0000C0: 10000162 00000000 10000160 00000000    ...b.......`....
-9F0000D0: 1000015E 00000000 1000015C 00000000    ...^.......\....
-9F0000E0: 1000015A 00000000 10000158 00000000    ...Z.......X....
-9F0000F0: 10000156 00000000 10000154 00000000    ...V.......T....
+9f000000: 100000ff 00000000 100000fd 00000000    ................
+9f000010: 100001a5 00000000 100001a3 00000000    ................
+9f000020: 100001a1 00000000 1000019f 00000000    ................
+9f000030: 1000019d 00000000 1000019b 00000000    ................
+9f000040: 10000199 00000000 10000197 00000000    ................
+9f000050: 10000195 00000000 10000193 00000000    ................
+9f000060: 10000191 00000000 1000018f 00000000    ................
+9f000070: 1000018d 00000000 1000018b 00000000    ................
+9f000080: 10000189 00000000 10000187 00000000    ................
+9f000090: 10000185 00000000 10000183 00000000    ................
+9f0000a0: 10000181 00000000 1000017f 00000000    ................
+9f0000b0: 1000017d 00000000 1000017b 00000000    ...}.......{....
+9f0000c0: 10000179 00000000 10000177 00000000    ...y.......w....
+9f0000d0: 10000175 00000000 10000173 00000000    ...u.......s....
+9f0000e0: 10000171 00000000 1000016f 00000000    ...q.......o....
+9f0000f0: 1000016d 00000000 1000016b 00000000    ...m.......k....
 
   ```
 
 12. If you are sure that everything went OK, you may reset the board:
 
   ```
-  uboot> reset
+  ar7420> reset
   ```
 
 ### Using OpenWrt
@@ -348,7 +352,7 @@ user$ screen /dev/ttyUSB0 115200
 6. Transfer the backup off the device and to a safe place:
 
   ```
-  me@homw:~# scp root@192.168.1.1:/tmp/uboot_orig.bin .
+  me@home:~# scp root@192.168.1.1:/tmp/uboot_orig.bin .
   uboot_orig.bin                                100%  128KB 128.0KB/s   00:00
   ```
 
@@ -402,7 +406,7 @@ To build image, run `make model` inside top dir, for example, command:
 
 ```
 
-`make omy` would build for U-Boot only for the omy devices
+`make omy` would build for U-Boot only for the OMYlink devices
 
 ```
 
