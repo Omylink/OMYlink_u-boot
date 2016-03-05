@@ -20,7 +20,7 @@ omy:	export COMPRESSED_UBOOT=1
 endif
 omy:	export ETH_CONFIG=_s27
 omy:
-	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) mr3420_v2_config
+	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) omy_config
 	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) ENDIANNESS=-EB V=1 all
 	@make --no-print-directory show_size
 

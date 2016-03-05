@@ -20,7 +20,10 @@ void led_toggle(void){
 
 	gpio = ar7240_reg_rd(AR7240_GPIO_OUT);
 
-#if defined(CONFIG_FOR_TPLINK_MR3020_V1)
+
+#if defined(CONFIG_FOR_OMY)
+	gpio ^= 1 << GPIO_SYS_LED_BIT;
+#elif defined(CONFIG_FOR_TPLINK_MR3020_V1)
 	gpio ^= 1 << GPIO_WPS_LED_BIT;
 #elif defined(CONFIG_FOR_TPLINK_WR703N_V1) || defined(CONFIG_FOR_TPLINK_WR720N_V3) || defined(CONFIG_FOR_TPLINK_WR710N_V1)
 	gpio ^= 1 << GPIO_SYS_LED_BIT;
@@ -52,7 +55,9 @@ void all_led_on(void){
 
 	gpio = ar7240_reg_rd(AR7240_GPIO_OUT);
 
-#if defined(CONFIG_FOR_TPLINK_MR3020_V1)
+#if defined(CONFIG_FOR_OMY)
+	SETBITVAL(gpio, GPIO_WPS_LED_BIT, GPIO_SYS_LED_ON);
+#elif defined(CONFIG_FOR_TPLINK_MR3020_V1)
 	SETBITVAL(gpio, GPIO_WPS_LED_BIT, GPIO_WPS_LED_ON);
 	SETBITVAL(gpio, GPIO_INTERNET_LED_BIT, GPIO_INTERNET_LED_ON);
 	SETBITVAL(gpio, GPIO_WLAN_LED_BIT, GPIO_WLAN_LED_ON);
@@ -108,6 +113,8 @@ void all_led_off(void){
 	gpio = ar7240_reg_rd(AR7240_GPIO_OUT);
 
 #if defined(CONFIG_FOR_TPLINK_MR3020_V1)
+	SETBITVAL(gpio, GPIO_WPS_LED_BIT, !GPIO_SYS_LED_ON);
+#elif defined(CONFIG_FOR_TPLINK_MR3020_V1)
 	SETBITVAL(gpio, GPIO_WPS_LED_BIT, !GPIO_WPS_LED_ON);
 	SETBITVAL(gpio, GPIO_INTERNET_LED_BIT, !GPIO_INTERNET_LED_ON);
 	SETBITVAL(gpio, GPIO_WLAN_LED_BIT, !GPIO_WLAN_LED_ON);
@@ -222,7 +229,17 @@ void gpio_config(void){
 	ar7240_reg_wr(HORNET_BOOTSTRAP_STATUS, (ar7240_reg_rd(HORNET_BOOTSTRAP_STATUS) | (0x1<<18)));
 #endif
 
-#if defined(CONFIG_FOR_TPLINK_MR3020_V1)
+#if defined(CONFIG_FOR_OMY)
+
+	/* LED's GPIOs on OMY:
+	 *
+	 * 19	=> SYS
+	 *
+	 */
+
+	ar7240_reg_wr(AR7240_GPIO_OE, (ar7240_reg_rd(AR7240_GPIO_OE) | 0x803E003));
+
+#elif defined(CONFIG_FOR_TPLINK_MR3020_V1)
 
 	/* LED's GPIOs on MR3020:
 	 *
