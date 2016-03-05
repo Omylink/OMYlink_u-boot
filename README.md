@@ -10,7 +10,7 @@ Currently supported devices:
   - OMYlink G1
   - OMYlink X1
 
-- **Atheros AR9341**:
+- **Atheros AR9344**:
   - TP-Link TL-WDR3500
 
 - **Atheros AR9331**:
