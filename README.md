@@ -33,6 +33,12 @@ More information about supported devices:
 |
 | OMYlink X1 | AR9341 | 8 MiB | 64 MiB DDR1 | 64 KiB, LZMA | RO |
 |
+| OMYlink WP-7805 | AR9341 | 8 MiB | 64 MiB DDR3 | 64 KiB, LZMA | RO |
+|
+| OMYlink WP-8801 | AR9341 | 16 MiB | 64 MiB DDR3 | 64 KiB, LZMA | RO |
+|
+| OMYlink WR-7801 | AR9341 | 16 MiB | 64 MiB DDR3 | 64 KiB, LZMA | RO |
+|
 | TP-Link TL-WR703N | AR9331 | 4 MiB | 32 MiB DDR1 | 64 KiB, LZMA | RO |
 |
 | D-Link DIR-505 H/W ver. A1 | AR1311 | 8 MiB | 64 MiB DDR2 | 64 KiB, LZMA | RO |
