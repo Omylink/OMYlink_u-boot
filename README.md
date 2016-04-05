@@ -11,7 +11,9 @@ Currently supported :
   - OMYlink X1
 
 - **Atheros AR9344**:
-  - TP-Link TL-WDR3500
+  - OMYlink WP-7805
+  - OMYlink WP-8801
+  - OMYlink WR-7801 
 
 - **Atheros AR9331**:
   - TP-Link TL-WR703N v1
@@ -29,7 +31,7 @@ More information about supported devices:
 |:--- | :--- | ---: | ---: | ---: | ---: |
 | OMYlink G1 | AR9341 | 16 MiB | 64 MiB DDR1 | 64 KiB, LZMA | RO |
 |
-| OMYlink X1 | AR9341 | 16 MiB | 64 MiB DDR1 | 64 KiB, LZMA | RO |
+| OMYlink X1 | AR9341 | 8 MiB | 64 MiB DDR1 | 64 KiB, LZMA | RO |
 |
 | TP-Link TL-WR703N | AR9331 | 4 MiB | 32 MiB DDR1 | 64 KiB, LZMA | RO |
 |
